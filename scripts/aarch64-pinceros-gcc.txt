@@ -1,0 +1,14 @@
+[binaries]
+c = 'aarch64-linux-gnu-gcc'
+cpp = 'aarch64-linux-gnu-g++'
+strip = 'strip'
+
+[host_machine]
+system = 'pinceros'
+cpu_family = 'aarch64'
+cpu = 'aarch64'
+endian = 'little'
+
+[properties]
+c_args = ['-DPINCEROS']
+cpp_args = ['-DPINCEROS']
