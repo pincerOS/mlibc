@@ -5,8 +5,49 @@
 #include <string.h>
 #include <sys/mman.h>
 
-int main()
+int main(int argc, char **argv)
 {
+    const char *header = "argv: ";
+    ssize_t header_written = 0;
+    ssize_t header_len = strlen(header);
+    while (header_written < header_len)
+    {
+        ssize_t bytes_written = pwrite(1, header + header_written, header_len - header_written, 0);
+        if (bytes_written < 0)
+        {
+            exit(1);
+        }
+        header_written += bytes_written;
+    }
+
+    ssize_t arg_written = 0;
+    ssize_t arg_len = strlen(argv[0]);
+    while (arg_written < arg_len)
+    {
+        ssize_t bytes_written = pwrite(1, argv[0] + arg_written, arg_len - arg_written, 0);
+        if (bytes_written < 0)
+        {
+            exit(1);
+        }
+        arg_written += bytes_written;
+    }
+    pwrite(1, "\n", 1, 0);
+
+    const char *footer = "argc is exit code\n";
+    ssize_t footer_written = 0;
+    ssize_t footer_len = strlen(footer);
+    while (footer_written < footer_len)
+    {
+        ssize_t bytes_written = pwrite(1, footer + footer_written, footer_len - footer_written, 0);
+        if (bytes_written < 0)
+        {
+            exit(1);
+        }
+        footer_written += bytes_written;
+    }
+
+    exit(argc);
+
     int fd = openat(3, "test.txt", 0, 0, NULL);
 
     char buf[100];
