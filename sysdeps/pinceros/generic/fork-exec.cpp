@@ -1,9 +1,9 @@
 #include <bits/ensure.h>
 #include <mlibc/all-sysdeps.hpp>
+#include <aarch64/syscall.h>
 
 namespace mlibc
 {
-
     int sys_futex_tid()
     {
         MLIBC_UNIMPLEMENTED();
@@ -22,9 +22,9 @@ namespace mlibc
         return -1;
     }
 
-    [[noreturn]] void sys_exit(int /* status */)
+    [[noreturn]] void sys_exit(int status)
     {
-        MLIBC_UNIMPLEMENTED();
+        __do_syscall1(EXIT, status);
         __builtin_unreachable();
     }
 
